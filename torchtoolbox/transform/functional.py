@@ -146,7 +146,7 @@ def resize(img, size, interpolation='BILINEAR'):
 
     interpolation = INTER_MODE[interpolation]
     if isinstance(size, int):
-        w, h, _ = img.shape
+        w, h = img.shape
         if (w <= h and w == size) or (h <= w and h == size):
             return img
         if w < h:
@@ -252,7 +252,7 @@ def crop(img, i, j, h, w):
 def center_crop(img, output_size):
     if isinstance(output_size, numbers.Number):
         output_size = (int(output_size), int(output_size))
-    w, h, _ = img.shape
+    w, h = img.shape
     th, tw = output_size
     i = int(round((h - th) / 2.))
     j = int(round((w - tw) / 2.))
@@ -419,7 +419,7 @@ def perspective(
         gray_scale = True
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
-    h, w, _ = img.shape
+    h, w = img.shape
     matrix = _get_perspective_coeffs(
         h,
         w,
@@ -465,7 +465,7 @@ def five_crop(img, size):
         assert len(
             size) == 2, "Please provide only two dimensions (h, w) for size."
 
-    w, h, _ = img.shape
+    w, h = img.shape
     crop_h, crop_w = size
     if crop_w > w or crop_h > h:
         raise ValueError(
@@ -681,7 +681,7 @@ def rotate(img, angle, resample=False, expand=False, center=None):
         raise TypeError('img should be CV Image. Got {}'.format(type(img)))
 
     imgtype = img.dtype
-    h, w, _ = img.shape
+    h, w = img.shape
     point = center or (w / 2, h / 2)
     M = cv2.getRotationMatrix2D(point, angle=-angle, scale=1)
 
@@ -771,7 +771,7 @@ def affine(
         gray_scale = True
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
-    rows, cols, _ = img.shape
+    rows, cols = img.shape
     center = (cols * 0.5, rows * 0.5)
     matrix = _get_inverse_affine_matrix(center, angle, translate, scale, shear)
     dst_img = cv2.warpAffine(
